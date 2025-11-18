@@ -1,12 +1,14 @@
-<app-header [title]="'Crear tarea'" [showBack]="true"></app-header>
+<app-header [title]="isEditMode() ? 'Editar tarea' : 'Crear tarea'" [showBack]="true"></app-header>
 
 <ion-content>
   <div class="container-create-task contain-general">
     <div class="form">
-      <ion-input class="input-style" label="Tarea" labelPlacement="floating" placeholder="Hacer tarea..."></ion-input>
+      <ion-input class="input-style" label="Tarea" labelPlacement="floating" placeholder="Hacer tarea..."
+        (ionInput)="inputTitle($event)" [value]="title()">
+      </ion-input>
 
       <ion-select class="input-style" label="Prioridad" label-placement="floating" placeholder="Selecciona prioridad"
-        okText="Listo" cancelText="Cancelar">
+        okText="Listo" cancelText="Cancelar" (ionChange)="changePriority($event)" [value]="priority()">
         <ion-select-option value="high">Alta</ion-select-option>
         <ion-select-option value="medium">Media</ion-select-option>
         <ion-select-option value="low">Baja</ion-select-option>
@@ -14,21 +16,14 @@
 
       <div class="category">
         <ion-label class="label-style">Categoría</ion-label>
-        <swiper-container class="swiper-wrapper">
-          @for(category of categories; track category.id) {
-          <swiper-slide class="slide">
-            <div class="category-card" [class.selected]="selectedCategory()?.id === category.id"
-              (click)="handleCategory(category)" tabindex="0" role="button">
-              <ion-icon class="icon" [name]="category.icon"></ion-icon>
-              <h6 class="title">{{ category.name }}</h6>
-              <p class="count">{{ category.taskCount }} tareas</p>
-            </div>
-          </swiper-slide>
-          }
-        </swiper-container>
+        <app-category-carousel [categories]="categories()" [selectable]="true" [selectedCategoryId]="selectedCategoryId()"
+          (categoryClick)="handleCategory($event)">
+        </app-category-carousel>
       </div>
     </div>
 
-    <ion-button expand="block" class="btn-create-task">Crear tarea</ion-button>
+    <ion-button expand="block" class="btn-create-task" [disabled]="!isFormValid()" (click)="saveTask()">
+      {{ isEditMode() ? 'Guardar cambios' : 'Crear tarea' }}
+    </ion-button>
   </div>
 </ion-content>

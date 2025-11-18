@@ -1,27 +1,19 @@
-import { Component, inject, input, OnInit, signal } from "@angular/core";
+import { Component, computed, inject, input, OnInit, signal } from "@angular/core";
 import { HeaderComponent } from "src/app/shared/components/header/header.component";
 import { IonContent, IonInput, IonButton, IonLabel, IonIcon } from "@ionic/angular/standalone";
-import { addIcons } from "ionicons";
-import { alarm, book, briefcase, calendar, heart, home, star } from "ionicons/icons";
-import { TodoStoreService } from "src/app/core/services/todo-store.service";
 import { Router } from "@angular/router";
-import { NgModel } from "@angular/forms";
+import { CategoryStorageService } from "src/app/core/services/category.service";
+import { CATEGORY_ICONS } from "src/app/core/constants/icons";
+import { Colors } from "src/app/core/constants/colors";
+import { CategoryStoreService } from "src/app/core/services/category-store.service";
 
-addIcons({
-  home,
-  star,
-  heart,
-  alarm,
-  calendar,
-  book,
-  briefcase,
-});
 @Component({
   standalone: true,
   selector: "app-create-category",
   templateUrl: "./create-category.component.html",
   styleUrls: ["./create-category.component.scss"],
-  imports: [IonIcon,
+  imports: [
+    IonIcon,
     IonLabel,
     HeaderComponent,
     IonContent,
@@ -30,24 +22,31 @@ addIcons({
   ],
 })
 export class CreateCategoryPage implements OnInit {
-  private readonly todoStore = inject(TodoStoreService);
-  private readonly router = inject(Router);
+  readonly categoryId = input<number | null>();
 
-  readonly categoryId = input<string | null>();
-  public colors = ["red", "blue", "green", "yellow", "purple", "orange"];
+  private readonly router = inject(Router);
+  private readonly categoryStore = inject(CategoryStoreService);
+
+  public colors = Colors;
   public selectedColor = signal<string | null>(null);
-  public icons = ["home", "star", "heart", "alarm", "calendar", "book", "briefcase"];
+  public icons = CATEGORY_ICONS;
   public selectedIcon = signal<string | null>(null);
   public name = signal<string>('');
+
+  public readonly isFormValid = computed(() =>
+    !!this.name().trim() &&
+    !!this.selectedColor() &&
+    !!this.selectedIcon()
+  );
 
   async ngOnInit() {
     if (this.categoryId()) {
       const id = Number(this.categoryId());
-      const category = await this.todoStore.getCategoryById(id);
+      const category = this.categoryStore.getCategoryById(id);
       if (category) {
         this.name.set(category.name);
-        this.selectedColor.set(category.color ?? 'blue');
-        this.selectedIcon.set(category.icon ?? 'book');
+        this.selectedColor.set(category.color);
+        this.selectedIcon.set(category.icon);
       }
     }
   }
@@ -64,20 +63,28 @@ export class CreateCategoryPage implements OnInit {
     this.selectedIcon.set(icon);
   }
 
+  deleteCategory() {
+    if (!this.categoryId()) return;
+    this.categoryStore.deleteCategory(Number(this.categoryId()));
+    this.router.navigate(['/home']);
+  }
+
   async saveCategory() {
+    if (!this.isFormValid()) return;
+
     const payload = {
-      name: this.name(),
-      color: this.selectedColor(),
-      icon: this.selectedIcon(),
+      name: this.name().trim()!,
+      color: this.selectedColor()!,
+      icon: this.selectedIcon()!,
     };
 
     console.log(payload);
     if (this.categoryId()) {
-      await this.todoStore.updateCategory(Number(this.categoryId()), payload);
+      const id = Number(this.categoryId());
+      this.categoryStore.updateCategory({ ...payload, id: id });
     } else {
-      await this.todoStore.createCategory(payload);
+      this.categoryStore.createCategory(payload);
     }
-
     this.router.navigate(['/home']);
   }
 }

@@ -1,10 +1,8 @@
 export interface Category {
-  id: string;
+  id: number;
   name: string;
   icon: string;
   color: string;
 }
 
-export interface CategoryWithCount extends Category {
-  taskCount: number;
-}
+export interface NewCategory extends Omit<Category, 'id'> {}

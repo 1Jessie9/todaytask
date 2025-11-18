@@ -6,8 +6,9 @@ import { SQLite } from '@awesome-cordova-plugins/sqlite/ngx';
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 import { register } from 'swiper/element/bundle';
+import { registerAppIcons } from './app/core/constants/icons';
 register();
-
+registerAppIcons();
 bootstrapApplication(AppComponent, {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

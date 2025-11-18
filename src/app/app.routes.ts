@@ -14,6 +14,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/create-task/create-task.component').then((m) => m.CreateTaskPage),
   },
   {
+    path: 'edit-task/:taskId',
+    loadComponent: () => import('./pages/create-task/create-task.component').then((m) => m.CreateTaskPage),
+  },
+  {
     path: 'create-category',
     loadComponent: () => import('./pages/create-category/create-category.component').then((m) => m.CreateCategoryPage),
   },

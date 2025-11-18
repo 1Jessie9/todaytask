@@ -1,17 +1,20 @@
 import { NgStyle } from "@angular/common";
-import { Component, ElementRef, input, signal, ViewChild } from "@angular/core";
+import { Component, ElementRef, inject, input, output, signal, ViewChild } from "@angular/core";
 import { IonIcon } from "@ionic/angular/standalone";
-import { addIcons } from "ionicons";
-import { checkmarkDoneCircle, pencil, trash, checkmarkCircle } from "ionicons/icons";
 import { PriorityEnum } from "src/app/core/models/priority.interface";
 import { TaskTodo } from "src/app/core/models/task.interface";
 import { createGesture, Gesture } from "@ionic/angular";
+import { TaskStorageService } from "src/app/core/services/task.service";
+import { Router } from "@angular/router";
+import { CategoryColorPipe } from "../../pipes/category-color.pipe";
+import { PriorityColorPipe } from "../../pipes/priority-color.pipe";
+import { addIcons } from "ionicons";
+import { checkmarkDoneCircle, pencil, trash } from "ionicons/icons";
 
 addIcons({
-  checkmarkDoneCircle,
   pencil,
+  checkmarkDoneCircle,
   trash,
-  checkmarkCircle,
 })
 @Component({
   standalone: true,
@@ -21,11 +24,18 @@ addIcons({
   imports: [
     IonIcon,
     NgStyle,
+    CategoryColorPipe,
+    PriorityColorPipe,
   ]
 })
 export class CardTaskComponent {
+  private readonly taskStore = inject(TaskStorageService);
+  private readonly router = inject(Router);
+
   @ViewChild('cardContent') cardContent!: ElementRef<HTMLElement>;
   private gesture?: Gesture;
+
+  readonly refresh = output<void>();
 
   public readonly task = input.required<TaskTodo>();
   public readonly showCategory = input<boolean>(true);
@@ -87,5 +97,20 @@ export class CardTaskComponent {
     this.translateX.set(0);
     this.showComplete.set(false);
     this.showEdit.set(false);
+  }
+
+  handleComplete() {
+    this.refresh.emit();
+    this.taskStore.completeTask(this.task().id);
+  }
+
+  handleEdit() {
+    this.refresh.emit();
+    this.router.navigate(['/edit-task', this.task().id]);
+  }
+
+  handleDelete() {
+    this.refresh.emit();
+    this.taskStore.deleteTask(this.task().id);
   }
 }

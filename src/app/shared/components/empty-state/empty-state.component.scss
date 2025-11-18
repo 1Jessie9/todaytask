@@ -1,0 +1,30 @@
+.no-found {
+  justify-items: center;
+  position: relative;
+  text-align: center;
+  padding-top: 40px;
+
+  .description {
+    align-items: center;
+    margin: 0;
+    text-align: center;
+    font-size: 20px;
+    color: var(--ion-color-medium);
+    text-wrap: pretty;
+    width: 300px;
+    height: 200px;
+    justify-content: center;
+    display: flex;
+    border: 1px solid gray;
+    border-radius: 12px;
+    padding: 12px;
+  }
+
+  .arrow {
+    width: 110px;
+    rotate: -80deg;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}

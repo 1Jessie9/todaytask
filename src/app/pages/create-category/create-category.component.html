@@ -11,26 +11,36 @@
         <ion-label class="label-style">Color</ion-label>
         <div class="color-options">
           @for(color of colors; track color) {
-          <div class="color-circle" [style.background-color]="color" (click)="selectColor(color)" [class.selected]="selectedColor() === color"></div>
+          <div class="color-circle" [style.background-color]="color.display" (click)="selectColor(color.value)"
+            [class.selected]="selectedColor() === color.value">
+          </div>
           }
         </div>
       </div>
 
       <div class="icons">
-        <ion-label class="label-style">Categoría</ion-label>
+        <ion-label class="label-style">Icono</ion-label>
+
         <div class="icon-options">
-          @for(icon of icons; track icon) {
-          <ion-button size="medium" [fill]="selectedIcon() === icon ? 'solid' : 'clear'" class="filter-button"
-            (click)="selectIcon(icon)" [color]="selectedIcon() === icon ? 'primary' : ''">
-            <ion-icon [name]="icon" size="medium"></ion-icon>
-          </ion-button>
+          @for(icon of icons; track icon.value) {
+          <button class="icon-item" [class.selected]="selectedIcon() === icon.value" (click)="selectIcon(icon.value)">
+
+            <ion-icon [name]="icon.value"></ion-icon>
+          </button>
           }
         </div>
       </div>
     </div>
 
-    <ion-button expand="block" class="btn-create-category" (click)="saveCategory()">
-      {{ categoryId() ? 'Guardar cambios' : 'Crear categoría' }}
-    </ion-button>
+    <section>
+      <ion-button expand="block" class="btn-create-category" [disabled]="!isFormValid()" (click)="saveCategory()">
+        {{ categoryId() ? 'Guardar cambios' : 'Crear categoría' }}
+      </ion-button>
+      @if(categoryId()) {
+      <ion-button expand="block" class="btn-create-category" color="danger" (click)="deleteCategory()">
+        Eliminar categoría
+      </ion-button>
+      }
+    </section>
   </div>
 </ion-content>

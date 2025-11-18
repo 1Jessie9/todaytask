@@ -11,3 +11,9 @@ export enum PriorityEnum {
   'medium' = 'media',
   'high' = 'alta',
 }
+
+export const PRIORITY_COLORS: Record<Priority, string> = {
+  low: '#4CAF50',
+  medium: '#FFC107',
+  high: '#F44336',
+};
