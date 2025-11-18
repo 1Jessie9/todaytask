@@ -3,8 +3,8 @@
 App móvil que consume **localStorage** para crear, actualizar, completar y borrar tareas y categorías del usuario.
 
 ### Explicación general: 
-[Prueba Técnica para Desarrollador Mobile - Aplicación Ionic](./Prueba%20Técnica%20para%20Desarrollador%20Mobile%20-%20Aplicación%20Ionic.pdf)
-Video DEMO: https://drive.google.com/file/d/1pTPI0KV9mVCTYzJ8-MneVPIVvsJipgU1/view?usp=sharing
+- [Prueba Técnica para Desarrollador Mobile - Aplicación Ionic](./Prueba%20Técnica%20para%20Desarrollador%20Mobile%20-%20Aplicación%20Ionic.pdf)
+- Video DEMO: https://drive.google.com/file/d/1pTPI0KV9mVCTYzJ8-MneVPIVvsJipgU1/view?usp=sharing
 
 
 ## Demo
