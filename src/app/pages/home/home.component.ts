@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { IonIcon, IonContent, IonButton } from "@ionic/angular/standalone";
+import { IonIcon, IonContent, IonButton, IonCard, IonCardHeader, IonCardTitle, IonCardContent } from "@ionic/angular/standalone";
 import { CardTaskComponent } from "src/app/shared/components/card-task/card-task.component";
 import { HeaderComponent } from "src/app/shared/components/header/header.component";
 import { SwiperOptions } from "swiper/types";
@@ -9,6 +9,7 @@ import { CategoryCarouselComponent } from "src/app/shared/components/category-ca
 import { EmptyStateComponent } from "src/app/shared/components/empty-state/empty-state.component";
 import { CategoryStoreService } from "src/app/core/services/category-store.service";
 import { TaskStoreService } from "src/app/core/services/task-store.service";
+import { RemoteConfigService } from "src/app/core/services/remote-config.service";
 
 @Component({
   standalone: true,
@@ -22,13 +23,17 @@ import { TaskStoreService } from "src/app/core/services/task-store.service";
     CardTaskComponent,
     IonButton,
     CategoryCarouselComponent,
-    EmptyStateComponent
+    EmptyStateComponent,
+    IonCardTitle,
+    IonCardHeader,
+    IonCard,
   ],
 })
 export class HomePage {
   private readonly router = inject(Router);
   private readonly categoryStore = inject(CategoryStoreService);
   private readonly taskStore = inject(TaskStoreService);
+  readonly remoteConfig = inject(RemoteConfigService);
 
   readonly categories = this.categoryStore.categories;
   readonly tasks = this.taskStore.pendingTasks;

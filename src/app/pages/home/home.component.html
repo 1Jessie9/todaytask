@@ -2,10 +2,20 @@
 <ion-content [fullscreen]="true">
   <div class="container-home">
     <div class="header">
-      <img src="assets/icons/todaytask.svg" alt="logo" class="logo" width="70px"/>
+      <img src="assets/icons/todaytask.svg" alt="logo" class="logo" width="70px" />
       <p class="description">Hoy tienes <b>{{pendingTasksCount()}} tarea{{pendingTasksCount() !== 1 ? 's' : '' }}
           pendiente{{pendingTasksCount() !== 1 ? 's' : '' }}</b></p>
     </div>
+
+    @if(remoteConfig.showNewBanner) {
+      <section>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Nuevo Banner Activo</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </section>
+    }
 
     <div class="categories">
       <section class="contain-button">
