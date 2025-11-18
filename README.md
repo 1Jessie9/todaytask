@@ -1,10 +1,12 @@
 # TodayTask — Ionic 8 + Angular 20 + Cordova
 
 App móvil que consume **localStorage** para crear, actualizar, completar y borrar tareas y categorías del usuario.
+### Explicación general: 
+[Prueba Técnica para Desarrollador Mobile - Aplicación Ionic](./Prueba Técnica para Desarrollador Mobile - Aplicación Ionic.pdf)
 
 ## Demo
-- **Android APK**: https://drive.google.com/file/d/19Jh4e0BmZ7ZPoASf4rNfpfVeOe2P2Z0z/view?usp=sharing
-
+- **Android APK**: [aquí](https://drive.google.com/drive/folders/120dl8WZP9q19vFvEaLwp1czrg9COPqjV?usp=drive_link)
+- **IOS IPA**: [aquí](https://drive.google.com/drive/folders/1eBcZJZZdOlXcyaNyA_4Jr8JnLdd_n7jf?usp=drive_link)
 
 ## Tech Stack
 - **Ionic** 8 (standalone components)
